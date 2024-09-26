@@ -1,0 +1,129 @@
+<!--<div class="chat-container" #chatContainer>-->
+<!--  <div class="header">-->
+<!--    <div class="header__body">-->
+<!--      <div class="header__name">-->
+<!--        <div class="header__avatar">-->
+<!--          <span class="header__avatar__img"></span>-->
+<!--        </div>-->
+<!--        <div class="header__desc">-->
+<!--          <span class="header__desc-name">Meta</span>-->
+<!--          <p>-->
+<!--            Добро пожаловать в финансовую систему будущего, где технологии-->
+<!--            зарабатывают вам деньги!-->
+<!--          </p>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+
+<!--  <div class="messages" *ngFor="let message of messages">-->
+<!--    <div *ngIf="message.type === 'ai'" class="ai-message">{{ message.text }}</div>-->
+<!--    <div *ngIf="message.type === 'user'" class="user-message">{{ message.text }}</div>-->
+
+<!--    <div *ngIf="message.options" class="options">-->
+<!--      <button *ngFor="let option of message.options" (click)="selectOption(option)">-->
+<!--        {{ option }}-->
+<!--      </button>-->
+<!--    </div>-->
+
+<!--    <img *ngIf="message.imageUrl" [src]="message.imageUrl" alt="График" class="graph-image" />-->
+<!--  </div>-->
+
+<!--  <div *ngIf="isTyping" class="spinner">-->
+<!--    <span class="rotate"></span>-->
+<!--  </div>-->
+
+<!--  <div *ngIf="!isTyping && messages.length > 0">-->
+<!--    <div class="name-form" *ngIf="currentStep === 2">-->
+<!--      <input type="text" placeholder="Имя" #nameInput />-->
+<!--      <input type="text" placeholder="Фамилия" #surnameInput />-->
+<!--      <button (click)="handleNameAndSurname(nameInput.value, surnameInput.value)">Отправить</button>-->
+<!--    </div>-->
+<!--    <div class="name-form" *ngIf="currentStep === 11">-->
+<!--      <input type="email" placeholder="Ваш email" #emailInput />-->
+<!--      <button (click)="handleEmailInput(emailInput.value)">Отправить</button>-->
+<!--    </div>-->
+<!--    <div class="name-form" *ngIf="currentStep === 13">-->
+<!--      <input type="tel" placeholder="Ваш номер телефона" #phoneInput />-->
+<!--      <label>-->
+<!--        <input type="checkbox" [(ngModel)]="agreed" /> Даю свое согласие и подтверждаю что отвечу на звонок финансового консультанта компании после регистрации!-->
+<!--      </label>-->
+<!--      <button [disabled]="!agreed" (click)="handlePhoneInput(phoneInput.value, agreed)">Отправить</button>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+<!--<div *ngIf="showModal" class="modal-backdrop">-->
+<!--  <div class="modal">-->
+<!--    <h2>{{ modalMessage }}</h2>-->
+<!--    <button (click)="closeModal()">Закрыть</button>-->
+<!--  </div>-->
+<!--</div>-->
+<div class="chat-container" #chatContainer>
+  <div class="header">
+    <div class="header__body">
+      <div class="header__name">
+        <div class="header__avatar">
+          <span class="header__avatar__img"></span>
+        </div>
+        <div class="header__desc">
+          <span class="header__desc-name">Meta</span>
+          <p>
+            Добро пожаловать в финансовую систему будущего, где технологии
+            зарабатывают вам деньги!
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="messages" *ngFor="let message of messages">
+    <div *ngIf="message.type === 'ai'" class="ai-message">{{ message.text }}</div>
+    <div *ngIf="message.type === 'user'" class="user-message">{{ message.text }}</div>
+
+    <div *ngIf="message.options" class="options">
+      <button *ngFor="let option of message.options" (click)="selectOption(option)">
+        {{ option }}
+      </button>
+    </div>
+
+    <img *ngIf="message.imageUrl" [src]="message.imageUrl" alt="График" class="graph-image" />
+  </div>
+
+  <div *ngIf="isTyping" class="spinner">
+    <span class="rotate"></span>
+  </div>
+
+  <div *ngIf="!isTyping && messages.length > 0">
+    <div class="name-form" *ngIf="currentStep === 2">
+      <input type="text" placeholder="Имя" #nameInput />
+      <input type="text" placeholder="Фамилия" #surnameInput />
+      <button (click)="handleNameAndSurname(nameInput.value, surnameInput.value)">Отправить</button>
+    </div>
+
+    <!-- Валидация email -->
+    <div class="name-form" *ngIf="currentStep === 11">
+      <input type="email" placeholder="Ваш email" #emailInput [ngModel]="email" (ngModelChange)="onEmailChange($event)" />
+      <div *ngIf="emailInvalid" class="error-message">Неправильный формат email.</div>
+      <button [disabled]="emailInvalid" (click)="handleEmailInput(emailInput.value)">Отправить</button>
+    </div>
+
+    <!-- Валидация телефона -->
+    <div class="name-form" *ngIf="currentStep === 13">
+      <input type="tel" placeholder="Ваш номер телефона" #phoneInput [ngModel]="phone" (ngModelChange)="onPhoneChange($event)" />
+      <div *ngIf="phoneInvalid" class="error-message">Неправильный формат телефона.</div>
+      <label>
+        <input type="checkbox" [(ngModel)]="agreed" /> Даю свое согласие и подтверждаю что отвечу на звонок финансового консультанта компании после регистрации!
+      </label>
+      <button [disabled]="!agreed || phoneInvalid" (click)="handlePhoneInput(phoneInput.value, agreed)">Отправить</button>
+    </div>
+  </div>
+</div>
+
+<!-- Модальное окно для уведомлений -->
+<div *ngIf="showModal" class="modal-backdrop">
+  <div class="modal">
+    <h2>{{ modalMessage }}</h2>
+    <button (click)="closeModal()">Закрыть</button>
+  </div>
+</div>
